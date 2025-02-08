@@ -14,16 +14,5 @@ def test_get_mask_card_number (card_num, expected):
     assert get_mask_card_number (card_num) == expected
 
 
-# def test_get_mask_card_number (card_num: Union[str]) -> Union[str]:
-#     "Функция возвращает замаскированный номер карты"
-#     if len(card_num) == 20:
-#         return f"**{card_num[-4:]}"
-#     else:
-#         return "Данные не верны"
-#
-# def test_get_mask_account(accounts_num: Union[str]) -> Union[str]:
-#     "Функция возвращает замаскированные номера счета"
-#     if accounts_num:
-#         return f"{accounts_num[:4]}" " " f"{accounts_num[4:6]}** ***" " " f"{accounts_num[-4:]}"
-#     else:
-#         return "Данные не верны"
+def test_get_mask_account():
+    assert get_mask_account(98765432198765432198) == "**2198"
