@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 
 @pytest.mark.parametrize(
@@ -93,14 +93,23 @@ def test_transaction_descriptions(transactions, expected):
     assert descriptions == expected
 
 
-# Параметризация теста
-# @pytest.mark.parametrize(
-#     "start, stop, expected",
-#     [
-#         (4000, 4002, ["4000 4000 4000 4000", "4001 4001 4001 4001"]),
-#         (5000, 5001, ["5000 5000 5000 5000"]),
-#     ],
-# )
-# def test_card_number_generator(start, stop, expected):
-#     result = list(card_number_generator())
-#     assert result == expected
+@pytest.mark.parametrize(
+    "x, y, expected",
+    [
+        (
+            1,
+            5,
+            [
+                "0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003",
+                "0000 0000 0000 0004",
+                "0000 0000 0000 0005",
+            ],
+        )
+    ],
+)
+def test_card_number_generator(x, y, expected) -> None:
+    """Тестирование генератора card_number_generator. Правильность номеров карт в заданном диапазоне"""
+    list_card_number_generator = list(card_number_generator(start=x, stop=y))
+    assert list_card_number_generator == expected

@@ -78,10 +78,16 @@ for i in range(5):
     print((next(descriptions)))
 
 
-def card_number_generator():
-    for number in range(0, 9999999999999999):
-        yield f"{number:04} {number:08} {number:12} {number:16}"
 
+def card_number_generator(start, stop):
+    for num in range(start, stop + 1):
+        card_number = str(num)
+        while len(card_number) < 16:
+            card_number = '0' + card_number
 
-asd = card_number_generator()
-print(asd)
+        if 1 > int(card_number) or int(card_number) > 9999999999999999:
+            raise ValueError("недопустимый номер карты")
+
+        form_card_number = f"{card_number[0:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:16]}"
+        if 1 <= int(card_number) <= 9999999999999999:
+            yield form_card_number
