@@ -1,27 +1,30 @@
-from functools import wraps
-from typing import Callable, Any, Optional
+from pathlib import Path
+
+current_dir = Path(__file__).parent.parent.resolve()
+log_scripts = current_dir/'data'/'mylog.txt'
 
 
-def log(filename: Optional[str]=None) -> Callable:
-    """Декоратор логирования функции, ее результаты и ошибки"""
-
-    def decorator(func: Any) -> Any:
-        @wraps(func)
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
+def log(filename=None):
+    """Декоратор, который логирует начало и конец выполнения функции, а также ее результаты и возникшие ошибки"""
+    def logging(func):
+        def wrapper(*args, **kwargs):
+            print('До выполнения функции')
             try:
                 result = func(*args, **kwargs)
                 if filename is not None:
-                    with open(filename, "a", encoding="utf-8") as file:
-                        file.write(f"{func.__name__} ok\n")
+                    with open(log_scripts, "a") as file:
+                        file.write(f'Function {func.__name__}: {"a"}. Inputs: {args}, kwargs: {kwargs}.')
                 else:
-                    print(f"{func.__name__} ok")
-                return result
-            except Exception as error:
-                if filename:
+                    with open(log_scripts, "a") as file:
+                        file.write(f'{func.__name__} ok\n')
+            except Exception as e:
+                if filename is not None:
                     with open(filename, "a", encoding="utf-8") as file:
-                        file.write(f"{func.__name__} error: {error.__class__.__name__}. Inputs: {args}, {kwargs}\n")
+                        print(f'Function {func.__name__}: {e}. Inputs: {args}, kwargs: {kwargs}.')
                 else:
-                    print(f"{func.__name__} error: {error.__class__.__name__}. Inputs: {args}, {kwargs}\n")
-                raise error
+                    print(f"Функция: {func.__name__} - ERROR: {e} with inputs: {args}, {kwargs}")
+                result = None
+                print('После выполнения функции')
+            return result
         return wrapper
-    return decorator
+    return logging
