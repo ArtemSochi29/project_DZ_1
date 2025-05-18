@@ -1,24 +1,21 @@
 import os
 from typing import Any
-
-import requests
-from dotenv import load_dotenv
-from requests import RequestException
-
-load_dotenv()
-
-api_key = os.getenv("API_KEY")
+import json
 
 
-def convert_to_rub(amount: float, currency: str) -> float:
-    """Функция принимает значение в долларах или евро, обращается к API и возвращает конвертацию в рубли"""
-    url = f"https://api.apilayer.com/exchangerates_data/convert{amount}"
-    headers = {"apikey": api_key}
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        raise ValueError(f"Failed to get currency rate")
 
-    else:
-        json_result = response.json()
-        rub_amount = json_result["result"]
-        return rub_amount
+def get_transaction_from_json(file_path:str) -> list[dict[str, Any]]:
+    """
+    Функция открытия файла JSON
+    """
+    if not os.path.exists(file_path):
+        return []
+    try:
+        with open(file_path, "r", encoding="utf-8") as json_file:
+            transactions = json.load(json_file)
+            if type(transactions) is not list:
+                return []
+            result = list(filter(bool, transactions))
+            return result
+    except json.JSONDecodeError:
+        return []

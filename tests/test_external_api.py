@@ -1,13 +1,10 @@
 from typing import Dict
-
+from src.external_api import transactions_in_rub
+from unittest.mock import patch, MagicMock
 import pytest
-import requests
-from unittest.mock import MagicMock, patch
-from src.external_api import external_api
 
 
-
-@patch("src.external_api.requests.get")
+@patch("requests.get")
 def test_convert_to_rub_usd(mock_get: MagicMock) -> None:
     """Тест успешной конвертации из USD в RUB."""
     mock_get.return_value.status_code = 200
@@ -21,11 +18,11 @@ def test_convert_to_rub_usd(mock_get: MagicMock) -> None:
             }
         }
     }
-    result = external_api(transaction)
-    assert result == {"result": 7500.0}
+    result = transactions_in_rub(transaction)
+    assert result == 7500.0
 
 
-@patch("src.external_api.requests.get")
+@patch("requests.get")
 def test_convert_to_rub_eur(mock_get: MagicMock) -> None:
     """Тест успешной конвертации из EUR в RUB."""
     mock_get.return_value.status_code = 200
@@ -39,8 +36,8 @@ def test_convert_to_rub_eur(mock_get: MagicMock) -> None:
             }
         }
     }
-    result = external_api(transaction)
-    assert result == {"result": 8500.0}
+    result = transactions_in_rub(transaction)
+    assert result == 8500.0
 
 def test_convert_to_rub_rub() -> None:
     """Тест: конвертация из RUB в RUB возвращает ту же сумму."""
@@ -52,5 +49,22 @@ def test_convert_to_rub_rub() -> None:
             }
         }
     }
-    result = external_api(transaction)
+    result = transactions_in_rub(transaction)
     assert result == 100.0
+
+
+@patch("requests.get")
+def test_error_status(mock_get: MagicMock) -> None:
+    mock_get.return_value.status_code = 400
+    mock_get.return_value.text = "Bad Request"
+    transaction: dict[str, dict] = {
+        "operationAmount": {
+            "amount": 100.0,
+            "currency": {
+                "code": "USD"
+            }
+        }
+    }
+    with pytest.raises(Exception) as e:
+        transactions_in_rub(transaction)
+    assert str(e.value) == "Ошибка: 400 - Bad Request"
