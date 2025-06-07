@@ -78,7 +78,6 @@ for i in range(5):
     print((next(descriptions)))
 
 
-
 def card_number_generator(start, stop):
     for num in range(start, stop + 1):
         card_number = str(num)
