@@ -39,3 +39,13 @@ sum_two_numbers ok
 my_function ok
 sum_two_numbers ok
 my_function ok
+sum_two_numbers ok
+my_function ok
+sum_two_numbers ok
+my_function ok
+sum_two_numbers ok
+my_function ok
+sum_two_numbers ok
+my_function ok
+sum_two_numbers ok
+my_function ok

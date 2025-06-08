@@ -25,6 +25,7 @@ flake8 = "^7.1.1"
 mypy = "^1.13.0"
 black = "^24.10.0"
 isort = "^5.13.2"
+types-requests = "^2.32.0.20250602"
 
 
 [tool.poetry.group.homework_10_2_add_tests.dependencies]
