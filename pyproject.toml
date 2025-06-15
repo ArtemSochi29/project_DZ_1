@@ -9,11 +9,15 @@ readme = "README.md"
 python = "^3.13"
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+python-dotenv = "^1.0.1"
+requests = "^2.32.3"
 
 
 [tool.poetry.group.dev.dependencies]
 requests = "^2.32.3"
 pytest-cov = "^6.0.0"
+mypy = "^1.16.0"
+flake8 = "^7.2.0"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -21,6 +25,7 @@ flake8 = "^7.1.1"
 mypy = "^1.13.0"
 black = "^24.10.0"
 isort = "^5.13.2"
+types-requests = "^2.32.0.20250602"
 
 
 [tool.poetry.group.homework_10_2_add_tests.dependencies]
