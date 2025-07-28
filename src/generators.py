@@ -10,6 +10,15 @@ def filter_by_currency(
             yield transaction
 
 
+def filter_by_currency_in_csv(
+    transactions: Iterable[Dict[str, Any]], currency_code: str
+) -> Generator[Dict[str, Any], None, None]:
+    """Фильтрует список транзакций, по указанной валюте"""
+    for transaction in transactions:
+        if transaction["currency_code"] == currency_code:
+            yield transaction
+
+
 def transaction_descriptions(transactions: Iterable[Dict[str, Any]]) -> Iterable[str]:
     for transaction in transactions:
         yield transaction.get("description", "Перевод организации")

@@ -15,6 +15,3 @@ list_d = [
 def sort_by_date(list_dictionary: list, sort_order: bool = True) -> list:
     sort_date = sorted(list_dictionary, key=lambda x: x["date"], reverse=sort_order)
     return sort_date
-
-
-print(sort_by_date(list_d, sort_order=True))
